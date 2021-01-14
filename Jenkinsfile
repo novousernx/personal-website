@@ -10,9 +10,11 @@ pipeline {
 						}
 				}
 				stage('DockerHub Push') {
-						withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dhpwd', usernameVariable: 'dhuser')]) {
-    						sh "docker login -u ${dhuser} -p ${dhpwd}"
-    						sh "docker push novousernx/personal-website:${DOCKER_TAG}"
+						steps {
+								withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dhpwd', usernameVariable: 'dhuser')]) {
+    								sh "docker login -u ${dhuser} -p ${dhpwd}"
+    								sh "docker push novousernx/personal-website:${DOCKER_TAG}"
+    						}
 						}
 				}
 		}
