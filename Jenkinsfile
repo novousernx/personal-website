@@ -1,36 +1,23 @@
 pipeline {
-		
 		agent any
-		
 		environment {
-				dockerImage = ''
-				registry = 'novousernx/personal-website'
-				registryCredential = 'dockerhub'
+				DOCKER_TAG = getDockerTag()
 		}
-		
 		stages {
-				stage('Checkout') {
-						steps {
-								checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/novousernx/personal-website.git']]])
-						}
-				}
-				
 				stage('Build Docker Image') {
 						steps {
-								script {
-										dockerImage = docker.build registry
-								}
+								sh "docker build . -t novousernx/personal-website:${DOCKER_TAG}"
 						}
 				}
-				
-				stage('Upload To DockerHub') {
+				stage('DockerHub Push') {
 						steps {
-								script {
-										docker.withRegistry( '' , registryCredential) {
-												dockerImage.push()
-										}
-								}
+								
 						}
 				}
 		}
+}
+
+def getDockerTag() {
+		def tag = sh script: 'git rev-parse HEAD', returnStdout: true
+		return tag
 }
