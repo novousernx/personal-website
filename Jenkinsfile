@@ -19,7 +19,6 @@ pipeline {
 				}
 				stage('Remove Unused Docker Images') {
 						steps {
-								sh "docker stop $(docker ps -a -q)"
 								sh "yes | docker system prune --all"
 						}
 				}
