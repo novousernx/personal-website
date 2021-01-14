@@ -4,6 +4,8 @@ pipeline {
 		
 		environment {
 				dockerImage = ''
+				registry = 'novousernx/personal-website'
+				registryCredential = 'dockerhub'
 		}
 		
 		stages {
@@ -17,6 +19,16 @@ pipeline {
 						steps {
 								script {
 										dockerImage = docker.build registry
+								}
+						}
+				}
+				
+				stage('Upload To DockerHub') {
+						steps {
+								script {
+										docker.withRegistry( '' , registryCredential) {
+												dockerImage.push()
+										}
 								}
 						}
 				}
