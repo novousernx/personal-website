@@ -12,7 +12,7 @@ pipeline {
 				stage('DockerHub Push') {
 						steps {
 								withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerhubpwd')]) {
-    								sh "docker login -u novousernx -p --password-stdin ${dockerhubpwd}"
+    								sh "docker login -u novousernx --password-stdin ${dockerhubpwd}"
     								sh "docker push novousernx/personal-website:${DOCKER_TAG}"
     						}
 						}
