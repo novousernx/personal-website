@@ -11,8 +11,8 @@ pipeline {
 				}
 				stage('DockerHub Push') {
 						steps {
-								withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dhpwd', usernameVariable: 'dhuser')]) {
-    								sh "docker login -u ${dhuser} -p ${dhpwd}"
+								withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerhubpwd')]) {
+    								sh "docker login -u novousernx -p ${dockerhubpwd}"
     								sh "docker push novousernx/personal-website:${DOCKER_TAG}"
     						}
 						}
