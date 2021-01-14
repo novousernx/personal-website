@@ -1,5 +1,5 @@
 pipeline {
-		agent any
+		agent jenkins-agent
 		environment {
 				DOCKER_TAG = getDockerTag()
 		}
